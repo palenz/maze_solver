@@ -1,5 +1,7 @@
 import unittest
-from src.maze import *
+from src.create_maze import *
+
+# ADD MODULES HERE
 
 class TestMaze(unittest.TestCase):
     
