@@ -1,22 +1,23 @@
+import requests
+import json
 
-id = '94a4dd75-8f32-4b64-ae9a-b27beb753e4a'
-move_url = 'https://ponychallenge.trustpilot.com/pony-challenge/maze/'+id
+id = '6026e6c5-696b-4d58-941b-a90a9740ef00'
+url = 'https://ponychallenge.trustpilot.com/pony-challenge/maze/'+id
 
-move_params = {
-  "direction": "east"
-}
+def make_move(move):
+    move_params = {
+        "direction": move
+        }
+    res = requests.post(url, json=move_params)
+    move_response = json.loads(res.text)
+    state_result = [move_response['state'], move_response['state-result']]
+    return state_result
 
-move_response = requests.post(move_url, json=move_params)
-res = json.loads(response.text)
+def calculate_path(game):
+#     while not(game.pony_position == game.end_point):
 
-# ID value from the response is stored in the variable id.
-id = res["maze_id"]
 
-mar = False
-
-def calculate_path(pony_position, end_point,)
-while not(pony_position == end_point):
-
+print(make_move("east"))
 
 # possible_moves = check walls
 #     if south: + width and run again
