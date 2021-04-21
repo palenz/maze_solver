@@ -3,7 +3,7 @@ import json
 
 url = "https://ponychallenge.trustpilot.com/pony-challenge/maze"
 
-
+# Status should be None
 class Game:
     def __init__(self, pony_name, width, height, difficulty):
       self.pony_name = pony_name
@@ -15,7 +15,10 @@ class Game:
       self.domokun_position = None
       self.end_point_position = None
       self.walls = None
-      self.game_state = None
+      self.status = 'active'
+      self.victory_path = None
+      self.status_message = None
+      self.domo_threat = False
 
     def get_info(self):
       info_url = url + '/' + self.id
@@ -26,13 +29,8 @@ class Game:
       self.domokun_position = parsed_res['domokun'][0]
       self.end_point_position = parsed_res['end-point'][0]
       self.walls = parsed_res['data']
-      self.game_state = parsed_res['game-state']
-
-      # print(game1.pony_position)
-      # print(game1.walls)
-      # print(game1.end_point_position)
-      # print(game1.game_state)
-
+      self.status = parsed_res['game-state']['state']
+      self.status_message = parsed_res['game-state']['state-result']
 
     def create_game(self):
       game_params = {
@@ -41,16 +39,17 @@ class Game:
         "maze-player-name": self.pony_name,
         "difficulty": self.difficulty
       }
+      
       res = requests.post(url, json=game_params)
       self.id = json.loads(res.text)['maze_id']
+      
       if self.id:
         self.get_info()
 
+    def print_game(self):
+      res_print = requests.get(url + "/" + self.id + "/print")
+      print(res_print.text)
 
-# game1 = Game('Applejack', 15, 15, 2)
-# game1.create_game()
-
-# print(game1.id)
 
 
 
